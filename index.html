@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,23 +12,131 @@
 
   <div class="scene">
 
-    <!-- Plant (stem, leaves, flowers) -->
-    <div class="plant-area">
-      <div class="stem" id="stem"></div>
-      <div class="leaf leaf-left" id="leafLeft"></div>
-      <div class="leaf leaf-right" id="leafRight"></div>
-      <div class="flower flower-left" id="flower1"></div>
-      <div class="flower flower-center" id="flower2"></div>
-      <div class="flower flower-right" id="flower3"></div>
-    </div>
+    <!-- Watering can (hidden until watering step) -->
+    <svg id="wateringCan" class="watering-can" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+      <g id="canGroup">
+        <path d="M20 40 Q20 30 30 30 H70 Q80 30 80 40 V65 Q80 75 70 75 H30 Q20 75 20 65 Z" fill="#4a7fb5"/>
+        <path d="M20 42 Q20 33 29 33 H68 Q76 33 76 42 V63 Q76 72 68 72 H29 Q20 72 20 63 Z" fill="#5f93c9"/>
+        <path d="M78 45 L108 30 Q114 27 116 33 Q118 39 112 42 L86 55 Z" fill="#4a7fb5"/>
+        <path d="M80 47 L106 34 Q110 32 111 35 Q112 38 108 40 L84 51 Z" fill="#3a6ea3"/>
+        <circle cx="112" cy="32" r="7" fill="#4a7fb5"/>
+        <circle cx="112" cy="32" r="5" fill="#5f93c9"/>
+        <path d="M112 26 A2 2 0 0 1 112 38" stroke="#3a6ea3" stroke-width="0" fill="none"/>
+        <path d="M30 30 Q35 15 50 15 Q65 15 62 30" fill="none" stroke="#4a7fb5" stroke-width="5" stroke-linecap="round"/>
+        <ellipse cx="50" cy="76" rx="30" ry="4" fill="#3a6ea3" opacity="0.4"/>
+      </g>
+      <!-- Water droplets spawn here via JS -->
+      <g id="canDrops"></g>
+    </svg>
 
-    <!-- Pot -->
-    <div class="pot-wrap">
-      <div class="pot-rim"></div>
-      <div class="pot-body"></div>
-      <div class="soil" id="soil"></div>
-      <div class="seed" id="seed"></div>
-    </div>
+    <!-- Plant group: leaves, stem path, flowers -->
+    <svg class="plant-svg" viewBox="0 0 240 300" xmlns="http://www.w3.org/2000/svg">
+      <!-- Stem -->
+      <path id="stemPath"
+            d="M120 260 C 120 220, 118 180, 120 140"
+            fill="none" stroke="#3d8b40" stroke-width="5" stroke-linecap="round"/>
+
+      <!-- Left leaf -->
+      <g id="leafLeft" class="leaf-group">
+        <path d="M120 210 C 95 205, 75 190, 70 168 C 100 168, 118 185, 120 210 Z"
+              fill="#4caf50" stroke="#357a38" stroke-width="1.5"/>
+        <path d="M120 210 C 100 205, 85 195, 76 178" fill="none" stroke="#2e6b31" stroke-width="1.2" opacity="0.6"/>
+      </g>
+
+      <!-- Right leaf -->
+      <g id="leafRight" class="leaf-group">
+        <path d="M120 180 C 145 174, 163 158, 168 136 C 138 137, 121 156, 120 180 Z"
+              fill="#57b95c" stroke="#357a38" stroke-width="1.5"/>
+        <path d="M120 180 C 140 174, 154 163, 163 146" fill="none" stroke="#2e6b31" stroke-width="1.2" opacity="0.6"/>
+      </g>
+
+      <!-- Flowers -->
+      <g id="flowerLeft" class="flower-group">
+        <g transform="translate(88,140)">
+          <g class="petals">
+            <ellipse cx="0" cy="-13" rx="7" ry="12" fill="#f28fb2"/>
+            <ellipse cx="12" cy="-6" rx="7" ry="12" fill="#f28fb2" transform="rotate(72 12 -6)"/>
+            <ellipse cx="8" cy="10" rx="7" ry="12" fill="#f28fb2" transform="rotate(144 8 10)"/>
+            <ellipse cx="-8" cy="10" rx="7" ry="12" fill="#f28fb2" transform="rotate(216 -8 10)"/>
+            <ellipse cx="-12" cy="-6" rx="7" ry="12" fill="#f28fb2" transform="rotate(288 -12 -6)"/>
+          </g>
+          <circle cx="0" cy="0" r="7" fill="#f6c445"/>
+        </g>
+      </g>
+
+      <g id="flowerCenter" class="flower-group">
+        <g transform="translate(120,118)">
+          <g class="petals">
+            <ellipse cx="0" cy="-15" rx="8" ry="14" fill="#f4a6c8"/>
+            <ellipse cx="14" cy="-7" rx="8" ry="14" fill="#f4a6c8" transform="rotate(72 14 -7)"/>
+            <ellipse cx="9" cy="12" rx="8" ry="14" fill="#f4a6c8" transform="rotate(144 9 12)"/>
+            <ellipse cx="-9" cy="12" rx="8" ry="14" fill="#f4a6c8" transform="rotate(216 -9 12)"/>
+            <ellipse cx="-14" cy="-7" rx="8" ry="14" fill="#f4a6c8" transform="rotate(288 -14 -7)"/>
+          </g>
+          <circle cx="0" cy="0" r="8" fill="#f6c445"/>
+        </g>
+      </g>
+
+      <g id="flowerRight" class="flower-group">
+        <g transform="translate(152,140)">
+          <g class="petals">
+            <ellipse cx="0" cy="-13" rx="7" ry="12" fill="#e888ae"/>
+            <ellipse cx="12" cy="-6" rx="7" ry="12" fill="#e888ae" transform="rotate(72 12 -6)"/>
+            <ellipse cx="8" cy="10" rx="7" ry="12" fill="#e888ae" transform="rotate(144 8 10)"/>
+            <ellipse cx="-8" cy="10" rx="7" ry="12" fill="#e888ae" transform="rotate(216 -8 10)"/>
+            <ellipse cx="-12" cy="-6" rx="7" ry="12" fill="#e888ae" transform="rotate(288 -12 -6)"/>
+          </g>
+          <circle cx="0" cy="0" r="7" fill="#f6c445"/>
+        </g>
+      </g>
+
+      <!-- Sprout tip (visible right after seed germinates, before stem fully drawn) -->
+      <g id="sprout" class="sprout">
+        <path d="M120 260 C 118 250, 112 245, 106 246" fill="none" stroke="#4caf50" stroke-width="4" stroke-linecap="round"/>
+        <path d="M120 260 C 122 250, 128 245, 134 246" fill="none" stroke="#4caf50" stroke-width="4" stroke-linecap="round"/>
+      </g>
+    </svg>
+
+    <!-- Seed -->
+    <svg class="seed-svg" id="seedSvg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="10" cy="10" rx="6" ry="8" fill="#8a5a2b"/>
+      <path d="M10 3 Q13 10 10 17" stroke="#6b4420" stroke-width="1" fill="none" opacity="0.6"/>
+    </svg>
+
+    <!-- Water drops falling into the pot -->
+    <svg class="drops-layer" id="dropsLayer" viewBox="0 0 240 300" xmlns="http://www.w3.org/2000/svg"></svg>
+
+    <!-- Flower Pot -->
+    <svg class="pot-svg" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="potGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c97b46"/>
+          <stop offset="100%" stop-color="#9c5a2e"/>
+        </linearGradient>
+        <linearGradient id="rimGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#b06a3a"/>
+          <stop offset="100%" stop-color="#8a4a24"/>
+        </linearGradient>
+        <radialGradient id="soilGradient" cx="50%" cy="35%" r="65%">
+          <stop offset="0%" stop-color="#6b4527" id="soilStopInner"/>
+          <stop offset="100%" stop-color="#4a2f1a" id="soilStopOuter"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Pot body (trapezoid, softened) -->
+      <path d="M40 40 L200 40 L178 170 Q120 182 62 170 Z" fill="url(#potGradient)"/>
+      <path d="M40 40 L200 40 L196 55 Q120 66 44 55 Z" fill="#00000022"/>
+
+      <!-- Rim -->
+      <ellipse cx="120" cy="40" rx="88" ry="16" fill="url(#rimGradient)"/>
+      <ellipse cx="120" cy="36" rx="80" ry="13" fill="#a0592d"/>
+
+      <!-- Soil -->
+      <ellipse id="soilEllipse" cx="120" cy="37" rx="66" ry="10" fill="url(#soilGradient)"/>
+
+      <!-- Decorative pot band -->
+      <rect x="52" y="120" width="136" height="8" rx="4" fill="#7a4322" opacity="0.5"/>
+    </svg>
 
   </div>
 
