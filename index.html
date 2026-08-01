@@ -1,1 +1,49 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Growing Plant Animation</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1 class="title">Growing Plant Animation</h1>
+
+  <div class="scene">
+
+    <!-- Plant (stem, leaves, flowers) -->
+    <div class="plant-area">
+      <div class="stem" id="stem"></div>
+      <div class="leaf leaf-left" id="leafLeft"></div>
+      <div class="leaf leaf-right" id="leafRight"></div>
+      <div class="flower flower-left" id="flower1"></div>
+      <div class="flower flower-center" id="flower2"></div>
+      <div class="flower flower-right" id="flower3"></div>
+    </div>
+
+    <!-- Pot -->
+    <div class="pot-wrap">
+      <div class="pot-rim"></div>
+      <div class="pot-body"></div>
+      <div class="soil" id="soil"></div>
+      <div class="seed" id="seed"></div>
+    </div>
+
+  </div>
+
+  <div class="buttons">
+    <button id="plantBtn">🌱 Plant Seed</button>
+    <button id="waterBtn" disabled>💧 Water Plant</button>
+  </div>
+
+  <div class="message hidden" id="message">
+    <p class="message-line1">🌸 Well Done Falak</p>
+    <p class="message-line2">You Are Doing Great ❤️</p>
+    <button id="replayBtn">Replay</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
