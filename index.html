@@ -3,163 +3,248 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Growing Plant Animation</title>
+  <title>Growing Plant Animation | Premium Interactive Experience</title>
+  <meta name="description" content="A premium, hand-illustrated SVG plant growth animation built with pure HTML, CSS and JavaScript." />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <h1 class="title">Growing Plant Animation</h1>
-  <p class="stage-label" id="stageLabel">Seed</p>
+  <!-- ===================================================== -->
+  <!-- PAGE HEADER                                            -->
+  <!-- ===================================================== -->
+  <header class="page-header">
+    <h1 class="title">Growing Plant Animation</h1>
+    <p class="subtitle">Plant a seed, water it, and watch it bloom</p>
+    <p class="stage-label" id="stageLabel" aria-live="polite">Seed</p>
+  </header>
 
-  <div class="scene">
+  <!-- ===================================================== -->
+  <!-- MAIN SCENE                                             -->
+  <!-- ===================================================== -->
+  <main class="scene-wrapper">
+    <div class="scene" id="scene">
 
-    <!-- Watering can -->
-    <svg id="wateringCan" class="watering-can" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20 40 Q20 30 30 30 H70 Q80 30 80 40 V65 Q80 75 70 75 H30 Q20 75 20 65 Z" fill="#4a7fb5"/>
-      <path d="M20 42 Q20 33 29 33 H68 Q76 33 76 42 V63 Q76 72 68 72 H29 Q20 72 20 63 Z" fill="#5f93c9"/>
-      <path d="M78 45 L108 30 Q114 27 116 33 Q118 39 112 42 L86 55 Z" fill="#4a7fb5"/>
-      <path d="M80 47 L106 34 Q110 32 111 35 Q112 38 108 40 L84 51 Z" fill="#3a6ea3"/>
-      <circle cx="112" cy="32" r="7" fill="#4a7fb5"/>
-      <circle cx="112" cy="32" r="5" fill="#5f93c9"/>
-      <path d="M30 30 Q35 15 50 15 Q65 15 62 30" fill="none" stroke="#4a7fb5" stroke-width="5" stroke-linecap="round"/>
-      <ellipse cx="50" cy="76" rx="30" ry="4" fill="#3a6ea3" opacity="0.4"/>
-      <g id="canDrops"></g>
-    </svg>
+      <!-- Ambient glow behind the pot -->
+      <div class="ambient-glow" aria-hidden="true"></div>
 
-    <!-- Main plant illustration -->
-    <svg class="plant-svg" id="plantSvg" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="stemGrad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#2f7a34"/>
-          <stop offset="100%" stop-color="#4a9a4f"/>
-        </linearGradient>
+      <!-- ============================================= -->
+      <!-- WATERING CAN (hand-illustrated SVG)            -->
+      <!-- ============================================= -->
+      <svg id="wateringCan" class="watering-can" viewBox="0 0 140 116" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="canBodyGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#6fa3d6"/>
+            <stop offset="55%" stop-color="#4a7fb5"/>
+            <stop offset="100%" stop-color="#345f8c"/>
+          </linearGradient>
+          <linearGradient id="canHighlightGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#a8cdef" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#a8cdef" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="canSpoutGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#5f93c9"/>
+            <stop offset="100%" stop-color="#2f567f"/>
+          </linearGradient>
+        </defs>
 
-        <linearGradient id="leafGradA" x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0%" stop-color="#3f7d3f"/>
-          <stop offset="100%" stop-color="#79c26b"/>
-        </linearGradient>
-        <linearGradient id="leafGradB" x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0%" stop-color="#356b38"/>
-          <stop offset="100%" stop-color="#66ac5c"/>
-        </linearGradient>
+        <!-- body -->
+        <path d="M24 46 Q24 34 36 34 H88 Q100 34 100 46 V78 Q100 90 88 90 H36 Q24 90 24 78 Z" fill="url(#canBodyGrad)"/>
+        <path d="M28 40 Q40 36 50 36 Q46 60 30 74 Q24 62 28 40 Z" fill="url(#canHighlightGrad)"/>
 
-        <linearGradient id="sepalGrad" x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0%" stop-color="#3f7d3f"/>
-          <stop offset="100%" stop-color="#6bab5f"/>
-        </linearGradient>
+        <!-- handle -->
+        <path d="M36 34 Q42 16 62 16 Q82 16 78 34" fill="none" stroke="#4a7fb5" stroke-width="6" stroke-linecap="round"/>
+        <path d="M36 34 Q42 16 62 16 Q82 16 78 34" fill="none" stroke="#345f8c" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
 
-        <linearGradient id="budGrad" x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0%" stop-color="#4f8f4a"/>
-          <stop offset="60%" stop-color="#78b56a"/>
-          <stop offset="50%" stop-color="#e79ab8"/>
-        </linearGradient>
+        <!-- spout -->
+        <path d="M96 52 L128 34 Q136 30 138 37 Q140 44 132 48 L102 64 Z" fill="url(#canSpoutGrad)"/>
+        <ellipse cx="133" cy="36" r="7.5" fill="url(#canSpoutGrad)"/>
+        <ellipse cx="133" cy="36" r="4.2" fill="#dceaf7" opacity="0.5"/>
 
-        <linearGradient id="petalGradOuter" x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0%" stop-color="#c85f8e"/>
-          <stop offset="100%" stop-color="#ea8fb3"/>
-        </linearGradient>
-        <linearGradient id="petalGradMid" x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0%" stop-color="#e17ba4"/>
-          <stop offset="100%" stop-color="#f3aac8"/>
-        </linearGradient>
-        <linearGradient id="petalGradInner" x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0%" stop-color="#ef9ec0"/>
-          <stop offset="100%" stop-color="#fbd3e3"/>
-        </linearGradient>
+        <!-- base shadow -->
+        <ellipse cx="62" cy="91" rx="34" ry="4.5" fill="#1a2a3d" opacity="0.35"/>
 
-        <radialGradient id="centerGrad" cx="35%" cy="35%" r="70%">
-          <stop offset="0%" stop-color="#ffe28a"/>
-          <stop offset="60%" stop-color="#f7b43c"/>
-          <stop offset="100%" stop-color="#e08a1e"/>
-        </radialGradient>
+        <!-- pour drops spawn here -->
+        <g id="canDrops"></g>
+      </svg>
 
-        <symbol id="leafShape" viewBox="-16 -42 32 42">
-          <path d="M0,0
-                   C -4,-3 -8,-5 -9,-9
-                   C -11,-13 -8,-15 -11,-18
-                   C -14,-21 -11,-24 -13,-28
-                   C -15,-32 -10,-33 -11,-37
-                   C -8,-40 -3,-41 0,-42
-                   C 3,-41 8,-40 11,-37
-                   C 10,-33 15,-32 13,-28
-                   C 11,-24 14,-21 11,-18
-                   C 8,-15 11,-13 9,-9
-                   C 8,-5 4,-3 0,0 Z"/>
-          <path class="vein" d="M0,-2 L0,-40" />
-          <path class="vein" d="M0,-10 L-7,-16 M0,-10 L7,-16" />
-          <path class="vein" d="M0,-20 L-9,-26 M0,-20 L9,-26" />
-          <path class="vein" d="M0,-30 L-7,-34 M0,-30 L7,-34" />
-        </symbol>
-      </defs>
+      <!-- ============================================= -->
+      <!-- MAIN PLANT ILLUSTRATION                         -->
+      <!-- ============================================= -->
+      <svg class="plant-svg" id="plantSvg" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <!-- stem -->
+          <linearGradient id="stemGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#2c6b30"/>
+            <stop offset="100%" stop-color="#57a852"/>
+          </linearGradient>
 
-      <!-- Stems -->
-      <path id="stemMain" class="stem" d="M150,340 C 148,270 152,200 149,70" />
-      <path id="stemBranchL" class="stem branch" d="M150,235 C 115,220 85,195 75,150" />
-      <path id="stemBranchR" class="stem branch" d="M149,165 C 172,150 190,125 196,95" />
+          <!-- leaves -->
+          <linearGradient id="leafGradA" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#38702f"/>
+            <stop offset="100%" stop-color="#7ec96e"/>
+          </linearGradient>
+          <linearGradient id="leafGradB" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#2f5f32"/>
+            <stop offset="100%" stop-color="#69ae5f"/>
+          </linearGradient>
 
-      <!-- Leaves get injected here by JS -->
-      <g id="leavesLayer"></g>
+          <!-- sepals / bud -->
+          <linearGradient id="sepalGrad" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#3c7a3d"/>
+            <stop offset="100%" stop-color="#71b366"/>
+          </linearGradient>
+          <linearGradient id="budGrad" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#4c8c48"/>
+            <stop offset="58%" stop-color="#7cb96e"/>
+            <stop offset="100%" stop-color="#eda2c0"/>
+          </linearGradient>
 
-      <!-- Sprout (very first growth) -->
-      <g id="sprout" class="sprout">
-        <path d="M150,340 C 147,325 138,318 128,319" fill="none" stroke="#4caf50" stroke-width="4" stroke-linecap="round"/>
-        <path d="M150,340 C 153,325 162,318 172,319" fill="none" stroke="#4caf50" stroke-width="4" stroke-linecap="round"/>
-        <ellipse cx="126" cy="317" rx="7" ry="4" fill="#5fbf5a" transform="rotate(-25 126 317)"/>
-        <ellipse cx="174" cy="317" rx="7" ry="4" fill="#5fbf5a" transform="rotate(25 174 317)"/>
-      </g>
+          <!-- petals -->
+          <linearGradient id="petalGradOuter" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#c2557f"/>
+            <stop offset="100%" stop-color="#ea8fb3"/>
+          </linearGradient>
+          <linearGradient id="petalGradMid" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#dd739e"/>
+            <stop offset="100%" stop-color="#f3aac8"/>
+          </linearGradient>
+          <linearGradient id="petalGradInner" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#ee98ba"/>
+            <stop offset="100%" stop-color="#fcd8e6"/>
+          </linearGradient>
 
-      <!-- Flower groups get built + injected here by JS -->
-      <g id="flowerMain" class="flower"></g>
-      <g id="flowerLeft" class="flower"></g>
-      <g id="flowerRight" class="flower"></g>
-    </svg>
+          <!-- flower centre -->
+          <radialGradient id="centerGrad" cx="35%" cy="35%" r="70%">
+            <stop offset="0%" stop-color="#ffe28a"/>
+            <stop offset="60%" stop-color="#f7b43c"/>
+            <stop offset="100%" stop-color="#dd7f18"/>
+          </radialGradient>
 
-    <!-- Seed -->
-    <svg class="seed-svg" id="seedSvg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="10" cy="10" rx="6" ry="8" fill="#8a5a2b"/>
-      <path d="M10 3 Q13 10 10 17" stroke="#6b4420" stroke-width="1" fill="none" opacity="0.6"/>
-    </svg>
+          <!-- reusable leaf silhouette, base = attachment point (0,0) -->
+          <symbol id="leafShape" viewBox="-16 -42 32 42">
+            <path d="M0,0
+                     C -4,-3 -8,-5 -9,-9
+                     C -11,-13 -8,-15 -11,-18
+                     C -14,-21 -11,-24 -13,-28
+                     C -15,-32 -10,-33 -11,-37
+                     C -8,-40 -3,-41 0,-42
+                     C 3,-41 8,-40 11,-37
+                     C 10,-33 15,-32 13,-28
+                     C 11,-24 14,-21 11,-18
+                     C 8,-15 11,-13 9,-9
+                     C 8,-5 4,-3 0,0 Z"/>
+            <path class="vein" d="M0,-2 L0,-40" />
+            <path class="vein" d="M0,-10 L-7,-16 M0,-10 L7,-16" />
+            <path class="vein" d="M0,-20 L-9,-26 M0,-20 L9,-26" />
+            <path class="vein" d="M0,-30 L-7,-34 M0,-30 L7,-34" />
+          </symbol>
+        </defs>
 
-    <!-- Water drops -->
-    <svg class="drops-layer" id="dropsLayer" viewBox="0 0 240 300" xmlns="http://www.w3.org/2000/svg"></svg>
+        <!-- stems -->
+        <path id="stemMain" class="stem" d="M150,340 C 148,270 152,200 149,70" />
+        <path id="stemBranchL" class="stem branch" d="M150,235 C 115,220 85,195 75,150" />
+        <path id="stemBranchR" class="stem branch" d="M149,165 C 172,150 190,125 196,95" />
 
-    <!-- Flower Pot -->
-    <svg class="pot-svg" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="potGradient" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#c97b46"/>
-          <stop offset="100%" stop-color="#9c5a2e"/>
-        </linearGradient>
-        <linearGradient id="rimGradient" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#b06a3a"/>
-          <stop offset="100%" stop-color="#8a4a24"/>
-        </linearGradient>
-        <radialGradient id="soilGradient" cx="50%" cy="35%" r="65%">
-          <stop offset="0%" stop-color="#6b4527" id="soilStopInner"/>
-          <stop offset="100%" stop-color="#4a2f1a" id="soilStopOuter"/>
-        </radialGradient>
-      </defs>
+        <!-- leaves injected here by JS -->
+        <g id="leavesLayer"></g>
 
-      <path d="M40 40 L200 40 L178 170 Q120 182 62 170 Z" fill="url(#potGradient)"/>
-      <path d="M40 40 L200 40 L196 55 Q120 66 44 55 Z" fill="#00000022"/>
-      <ellipse cx="120" cy="40" rx="88" ry="16" fill="url(#rimGradient)"/>
-      <ellipse cx="120" cy="36" rx="80" ry="13" fill="#a0592d"/>
-      <ellipse id="soilEllipse" cx="120" cy="37" rx="66" ry="10" fill="url(#soilGradient)"/>
-      <rect x="52" y="120" width="136" height="8" rx="4" fill="#7a4322" opacity="0.5"/>
-    </svg>
+        <!-- first sprout shoot -->
+        <g id="sprout" class="sprout">
+          <path d="M150,340 C 147,325 138,318 128,319" fill="none" stroke="#4caf50" stroke-width="4" stroke-linecap="round"/>
+          <path d="M150,340 C 153,325 162,318 172,319" fill="none" stroke="#4caf50" stroke-width="4" stroke-linecap="round"/>
+          <ellipse cx="126" cy="317" rx="7" ry="4" fill="#5fbf5a" transform="rotate(-25 126 317)"/>
+          <ellipse cx="174" cy="317" rx="7" ry="4" fill="#5fbf5a" transform="rotate(25 174 317)"/>
+        </g>
 
-  </div>
+        <!-- flower groups, built + injected by JS -->
+        <g id="flowerMain" class="flower"></g>
+        <g id="flowerLeft" class="flower"></g>
+        <g id="flowerRight" class="flower"></g>
+      </svg>
 
-  <div class="buttons">
-    <button id="plantBtn">🌱 Plant Seed</button>
-    <button id="waterBtn" disabled>💧 Water Plant</button>
-  </div>
+      <!-- ============================================= -->
+      <!-- SEED                                            -->
+      <!-- ============================================= -->
+      <svg class="seed-svg" id="seedSvg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <ellipse cx="10" cy="10" rx="6" ry="8" fill="#8a5a2b"/>
+        <path d="M10 3 Q13 10 10 17" stroke="#6b4420" stroke-width="1" fill="none" opacity="0.6"/>
+      </svg>
 
-  <div class="message hidden" id="message">
-    <p class="message-line1">🌸 Well Done Falak</p>
-    <p class="message-line2">You Are Doing Great ❤️</p>
-    <button id="replayBtn">Replay</button>
-  </div>
+      <!-- ============================================= -->
+      <!-- WATER DROPS + SPLASH LAYER                      -->
+      <!-- ============================================= -->
+      <svg class="drops-layer" id="dropsLayer" viewBox="0 0 240 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+
+      <!-- ============================================= -->
+      <!-- FLOWER POT (hand-illustrated SVG)               -->
+      <!-- ============================================= -->
+      <svg class="pot-svg" viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="potGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#d18952"/>
+            <stop offset="55%" stop-color="#b06a37"/>
+            <stop offset="100%" stop-color="#8a4f28"/>
+          </linearGradient>
+          <linearGradient id="potHighlight" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#f0b27e" stop-opacity="0.55"/>
+            <stop offset="40%" stop-color="#f0b27e" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="rimGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#bd7440"/>
+            <stop offset="100%" stop-color="#8a4a24"/>
+          </linearGradient>
+          <radialGradient id="soilGradient" cx="50%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#6b4527" id="soilStopInner"/>
+            <stop offset="100%" stop-color="#4a2f1a" id="soilStopOuter"/>
+          </radialGradient>
+        </defs>
+
+        <!-- pot body -->
+        <path d="M40 40 L200 40 L178 170 Q120 182 62 170 Z" fill="url(#potGradient)"/>
+        <path d="M40 40 L200 40 L178 170 Q120 182 62 170 Z" fill="url(#potHighlight)"/>
+        <path d="M40 40 L200 40 L196 55 Q120 66 44 55 Z" fill="#00000022"/>
+
+        <!-- rim -->
+        <ellipse cx="120" cy="40" rx="88" ry="16" fill="url(#rimGradient)"/>
+        <ellipse cx="120" cy="36" rx="80" ry="13" fill="#a85f31"/>
+
+        <!-- soil -->
+        <ellipse id="soilEllipse" cx="120" cy="37" rx="66" ry="10" fill="url(#soilGradient)"/>
+
+        <!-- decorative band -->
+        <rect x="52" y="120" width="136" height="8" rx="4" fill="#7a4322" opacity="0.45"/>
+      </svg>
+
+    </div>
+
+    <!-- ============================================= -->
+    <!-- CONTROLS                                        -->
+    <!-- ============================================= -->
+    <section class="controls" aria-label="Plant controls">
+      <button id="plantBtn" class="btn btn-primary" type="button">
+        <span class="btn-icon" aria-hidden="true">🌱</span> Plant Seed
+      </button>
+      <button id="waterBtn" class="btn btn-secondary" type="button" disabled>
+        <span class="btn-icon" aria-hidden="true">💧</span> Water Plant
+      </button>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- FINAL MESSAGE                                   -->
+    <!-- ============================================= -->
+    <section class="message hidden" id="message" aria-live="polite">
+      <p class="message-line1">🌸 Well Done Falak</p>
+      <p class="message-line2">You Are Doing Great ❤️</p>
+      <button id="replayBtn" class="btn btn-primary" type="button">Replay</button>
+    </section>
+  </main>
+
+  <!-- ===================================================== -->
+  <!-- PAGE FOOTER                                            -->
+  <!-- ===================================================== -->
+  <footer class="page-footer">
+    <p>Built with HTML, CSS &amp; Vanilla JavaScript — no libraries, no frameworks.</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
