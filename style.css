@@ -19,17 +19,27 @@ body {
   font-size: 22px;
   font-weight: 600;
   letter-spacing: 0.3px;
-  margin-bottom: 10px;
+  margin: 0 0 6px;
   color: #f2f2f2;
   text-align: center;
+}
+
+.stage-label {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #9db2a6;
+  text-align: center;
+  min-height: 18px;
 }
 
 /* ---------- Scene ---------- */
 .scene {
   position: relative;
-  width: 300px;
-  height: 400px;
-  margin: 30px auto 20px;
+  width: 320px;
+  height: 430px;
+  margin: 20px auto 20px;
 }
 
 /* ---------- Pot ---------- */
@@ -114,94 +124,93 @@ body {
   opacity: 0.9;
 }
 
-/* ---------- Plant (stem, leaves, flowers) ---------- */
+/* ---------- Plant illustration ---------- */
 .plant-svg {
   position: absolute;
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  width: 240px;
-  height: 300px;
+  width: 300px;
+  height: 380px;
   z-index: 2;
+  overflow: visible;
 }
 
-#stemPath {
-  stroke-dasharray: 160;
-  stroke-dashoffset: 160;
-  transition: stroke-dashoffset 3s ease-out;
+.stem {
+  fill: none;
+  stroke: url(#stemGrad);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+  transition: stroke-dashoffset 3.5s ease-out;
 }
 
-#stemPath.grow {
+.stem.branch {
+  stroke-width: 4;
+  stroke-dasharray: 130;
+  stroke-dashoffset: 130;
+}
+
+.stem.grow {
   stroke-dashoffset: 0;
 }
 
 .sprout {
   opacity: 0;
-  transform-origin: 120px 260px;
-  transform: scale(0.3);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.8s ease;
 }
 
 .sprout.show {
   opacity: 1;
-  transform: scale(1);
 }
 
 .sprout.fade {
   opacity: 0;
 }
 
-.leaf-group {
+/* Leaves are positioned purely via JS-driven transform attributes;
+   CSS only controls their fade. */
+.leaf-item {
   opacity: 0;
-  transform: scale(0.2);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: opacity 0.9s ease;
 }
 
-#leafLeft {
-  transform-origin: 120px 210px;
-}
-
-#leafRight {
-  transform-origin: 120px 180px;
-}
-
-.leaf-group.show {
+.leaf-item.show {
   opacity: 1;
-  transform: scale(1);
 }
 
-.flower-group {
+.leaf-item .vein {
+  fill: none;
+  stroke: #274d29;
+  stroke-width: 0.6;
+  opacity: 0.45;
+}
+
+/* Flower groups: internal rings are scaled via JS-set transform
+   attributes for a correct pivot at the flower's local origin.
+   CSS only handles opacity fades. */
+.flower .sepals,
+.flower .budcap,
+.flower .ring1,
+.flower .ring2,
+.flower .ring3,
+.flower .center {
   opacity: 0;
-  transform: scale(0.15);
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: opacity 0.9s ease;
 }
 
-#flowerLeft {
-  transform-origin: 88px 140px;
-}
-#flowerCenter {
-  transform-origin: 120px 118px;
-}
-#flowerRight {
-  transform-origin: 152px 140px;
-}
-
-.flower-group.bloom {
+.flower .sepals.show,
+.flower .budcap.show,
+.flower .ring1.show,
+.flower .ring2.show,
+.flower .ring3.show,
+.flower .center.show {
   opacity: 1;
-  transform: scale(1);
 }
 
-.flower-group .petals {
-  animation: none;
-}
-
-.flower-group.bloom .petals {
-  animation: sway 3.5s ease-in-out infinite;
-}
-
-@keyframes sway {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(4deg); }
+.flower .budcap.fadeout {
+  opacity: 0;
 }
 
 /* ---------- Buttons ---------- */
