@@ -1,19 +1,22 @@
-
 // ---------- Element references ----------
 const plantBtn = document.getElementById("plantBtn");
 const waterBtn = document.getElementById("waterBtn");
 const replayBtn = document.getElementById("replayBtn");
 
-const seed = document.getElementById("seed");
-const soil = document.getElementById("soil");
-const potWrap = document.querySelector(".pot-wrap");
+const seed = document.getElementById("seedSvg");
+const soilEllipse = document.getElementById("soilEllipse");
+const potSvg = document.querySelector(".pot-svg");
 
-const stem = document.getElementById("stem");
+const wateringCan = document.getElementById("wateringCan");
+const dropsLayer = document.getElementById("dropsLayer");
+
+const stemPath = document.getElementById("stemPath");
+const sprout = document.getElementById("sprout");
 const leafLeft = document.getElementById("leafLeft");
 const leafRight = document.getElementById("leafRight");
-const flower1 = document.getElementById("flower1");
-const flower2 = document.getElementById("flower2");
-const flower3 = document.getElementById("flower3");
+const flowerLeft = document.getElementById("flowerLeft");
+const flowerCenter = document.getElementById("flowerCenter");
+const flowerRight = document.getElementById("flowerRight");
 
 const message = document.getElementById("message");
 
@@ -23,13 +26,12 @@ let waterInterval = null;
 plantBtn.addEventListener("click", () => {
   plantBtn.disabled = true;
 
-  // Trigger seed falling animation
   seed.classList.add("fall");
 
   // Seed disappears into the soil after falling
   setTimeout(() => {
     seed.classList.add("hide");
-  }, 1000);
+  }, 950);
 
   // Wait 2 seconds total, then enable Water button
   setTimeout(() => {
@@ -41,15 +43,21 @@ plantBtn.addEventListener("click", () => {
 waterBtn.addEventListener("click", () => {
   waterBtn.disabled = true;
 
-  // Start spawning water drops
-  waterInterval = setInterval(createWaterDrop, 150);
+  // Bring in the watering can and tilt it to pour
+  wateringCan.classList.add("pour");
+
+  // Start spawning water drops shortly after the can tilts
+  setTimeout(() => {
+    waterInterval = setInterval(createWaterDrop, 160);
+  }, 300);
 
   // Soil becomes darker as watering happens
-  soil.classList.add("wet");
+  soilEllipse.parentElement.parentElement.classList.add("soil-wet");
 
-  // Water animation lasts about 4 seconds
+  // Water animation lasts about 4 seconds, then can leaves
   setTimeout(() => {
     clearInterval(waterInterval);
+    wateringCan.classList.remove("pour");
   }, 4000);
 
   // After watering, wait ~3 seconds, then start growth
@@ -58,49 +66,78 @@ waterBtn.addEventListener("click", () => {
   }, 4000 + 3000);
 });
 
-// Creates a single falling water drop element
+// Creates a single falling SVG water drop
 function createWaterDrop() {
-  const drop = document.createElement("div");
-  drop.classList.add("water-drop");
-  drop.style.marginLeft = (Math.random() * 30 - 15) + "px";
-  potWrap.appendChild(drop);
+  const xOffset = Math.random() * 26 - 13;
+  const startX = 150 + xOffset;
 
-  drop.addEventListener("animationend", () => {
-    drop.remove();
-  });
+  const drop = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  drop.setAttribute(
+    "d",
+    "M0 0 C 3 5, 4 9, 0 12 C -4 9, -3 5, 0 0 Z"
+  );
+  drop.setAttribute("class", "water-drop");
+  drop.setAttribute("transform", `translate(${startX}, 20)`);
+  dropsLayer.appendChild(drop);
+
+  const duration = 700;
+  const start = performance.now();
+
+  function animateDrop(now) {
+    const elapsed = now - start;
+    const t = Math.min(elapsed / duration, 1);
+    const y = 20 + t * 200;
+    const opacity = 1 - t * 0.6;
+    drop.setAttribute("transform", `translate(${startX}, ${y})`);
+    drop.style.opacity = opacity;
+
+    if (t < 1) {
+      requestAnimationFrame(animateDrop);
+    } else {
+      drop.remove();
+    }
+  }
+
+  requestAnimationFrame(animateDrop);
 }
 
 // ---------- Step 3: Grow Plant ----------
 function growPlant() {
-  // Stem starts growing slowly
-  stem.classList.add("grow");
+  // Small sprout appears first
+  sprout.classList.add("show");
+
+  setTimeout(() => {
+    sprout.classList.add("fade");
+    // Stem starts growing slowly
+    stemPath.classList.add("grow");
+  }, 700);
 
   // Leaves appear while stem is still growing
   setTimeout(() => {
     leafLeft.classList.add("show");
-  }, 1200);
+  }, 1900);
 
   setTimeout(() => {
     leafRight.classList.add("show");
-  }, 1800);
+  }, 2500);
 
   // Flowers bloom one by one after the stem has fully grown
   setTimeout(() => {
-    flower1.classList.add("bloom");
-  }, 3600);
+    flowerLeft.classList.add("bloom");
+  }, 4200);
 
   setTimeout(() => {
-    flower2.classList.add("bloom");
-  }, 4600);
+    flowerCenter.classList.add("bloom");
+  }, 5200);
 
   setTimeout(() => {
-    flower3.classList.add("bloom");
-  }, 5600);
+    flowerRight.classList.add("bloom");
+  }, 6200);
 
   // Show final success message
   setTimeout(() => {
     message.classList.remove("hidden");
-  }, 6600);
+  }, 7200);
 }
 
 // ---------- Replay ----------
@@ -113,19 +150,25 @@ function resetScene() {
   seed.classList.remove("fall", "hide");
 
   // Reset soil
-  soil.classList.remove("wet");
+  soilEllipse.parentElement.parentElement.classList.remove("soil-wet");
+
+  // Reset watering can
+  wateringCan.classList.remove("pour");
+
+  // Reset sprout
+  sprout.classList.remove("show", "fade");
 
   // Reset stem
-  stem.classList.remove("grow");
+  stemPath.classList.remove("grow");
 
   // Reset leaves
   leafLeft.classList.remove("show");
   leafRight.classList.remove("show");
 
   // Reset flowers
-  flower1.classList.remove("bloom");
-  flower2.classList.remove("bloom");
-  flower3.classList.remove("bloom");
+  flowerLeft.classList.remove("bloom");
+  flowerCenter.classList.remove("bloom");
+  flowerRight.classList.remove("bloom");
 
   // Reset buttons
   plantBtn.disabled = false;
@@ -134,12 +177,10 @@ function resetScene() {
   // Hide message
   message.classList.add("hidden");
 
-  // Clear any leftover water interval
+  // Clear any leftover water interval and drops
   if (waterInterval) {
     clearInterval(waterInterval);
     waterInterval = null;
   }
-
-  // Remove any leftover water drop elements
-  document.querySelectorAll(".water-drop").forEach((drop) => drop.remove());
+  dropsLayer.innerHTML = "";
 }
