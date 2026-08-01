@@ -1,1 +1,279 @@
 
+/* ---------- Base ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #12161c;
+  color: #e8e8e8;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 30px 15px 60px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #f2f2f2;
+  text-align: center;
+}
+
+/* ---------- Scene ---------- */
+.scene {
+  position: relative;
+  width: 320px;
+  height: 380px;
+  margin: 40px auto 20px;
+}
+
+/* ---------- Pot ---------- */
+.pot-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 130px;
+}
+
+.pot-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200px;
+  height: 110px;
+  background: #a85d28;
+  clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+}
+
+.pot-rim {
+  position: absolute;
+  top: 0;
+  left: -10px;
+  width: 220px;
+  height: 20px;
+  background: #8a4a20;
+  border-radius: 8px;
+}
+
+.soil {
+  position: absolute;
+  top: 16px;
+  left: 30px;
+  width: 140px;
+  height: 22px;
+  background: #5b3a21;
+  border-radius: 50%;
+  transition: background-color 1.2s ease;
+}
+
+.soil.wet {
+  background: #3a2513;
+}
+
+/* ---------- Seed ---------- */
+.seed {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background: #7a5a2a;
+  border-radius: 50%;
+  opacity: 0;
+  transition: top 1s ease-in, opacity 0.5s ease 0.9s;
+}
+
+.seed.fall {
+  top: 22px;
+  opacity: 1;
+}
+
+.seed.hide {
+  opacity: 0;
+}
+
+/* ---------- Water drops ---------- */
+.water-drop {
+  position: absolute;
+  left: 50%;
+  top: -20px;
+  width: 5px;
+  height: 12px;
+  background: #4fa3d1;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  animation: dropFall 0.9s linear forwards;
+  pointer-events: none;
+}
+
+@keyframes dropFall {
+  from {
+    top: -20px;
+    opacity: 1;
+  }
+  to {
+    top: 260px;
+    opacity: 0;
+  }
+}
+
+/* ---------- Plant area ---------- */
+.plant-area {
+  position: absolute;
+  bottom: 128px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 0;
+}
+
+/* ---------- Stem ---------- */
+.stem {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 0;
+  background: #2f7d32;
+  border-radius: 3px;
+  transition: height 3.2s ease-out;
+}
+
+.stem.grow {
+  height: 150px;
+}
+
+/* ---------- Leaves ---------- */
+.leaf {
+  position: absolute;
+  width: 30px;
+  height: 16px;
+  background: #3c9a3f;
+  border-radius: 0 60% 0 60%;
+  opacity: 0;
+  transform: scale(0);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.leaf-left {
+  bottom: 55px;
+  left: -28px;
+  transform-origin: right center;
+}
+
+.leaf-right {
+  bottom: 85px;
+  left: 4px;
+  transform-origin: left center;
+  border-radius: 60% 0 60% 0;
+}
+
+.leaf.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ---------- Flowers ---------- */
+.flower {
+  position: absolute;
+  bottom: 145px;
+  width: 22px;
+  height: 22px;
+  background: #e88fc0;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.flower::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: #f4d35e;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.flower-left {
+  left: -30px;
+  bottom: 130px;
+}
+
+.flower-center {
+  left: -11px;
+  bottom: 150px;
+}
+
+.flower-right {
+  left: 8px;
+  bottom: 130px;
+}
+
+.flower.bloom {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ---------- Buttons ---------- */
+.buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+button {
+  background-color: #1e2530;
+  color: #f0f0f0;
+  border: 1px solid #3a4453;
+  padding: 12px 20px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+  background-color: #2a3444;
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- Message ---------- */
+.message {
+  margin-top: 30px;
+  text-align: center;
+  transition: opacity 0.8s ease;
+}
+
+.message.hidden {
+  display: none;
+  opacity: 0;
+}
+
+.message-line1 {
+  font-size: 22px;
+  margin: 6px 0;
+}
+
+.message-line2 {
+  font-size: 17px;
+  margin: 6px 0 18px;
+  color: #cfcfcf;
+}
