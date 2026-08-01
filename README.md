@@ -1,4 +1,4 @@
-[README.md](https://github.com/user-attachments/files/30622239/README.md) 
+
 # Growing Plant Animation
 
 A simple, beginner-friendly interactive web project where you plant a seed,
