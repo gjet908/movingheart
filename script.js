@@ -273,17 +273,17 @@ function resetFlower(refs) {
 const leafElements = {};
 
 const leafPlacements = {
-  p1L: { x: 150, y: 300, angle: -30, scale: 0.45, grad: "A" },
-  p1R: { x: 150, y: 295, angle: 30, scale: 0.45, grad: "B" },
+  p1L: { x: 150, y: 300, angle: -30, scale: 0.35, grad: "A" },
+  p1R: { x: 150, y: 296, angle: 30, scale: 0.35, grad: "B" },
 
-  p2L: { x: 150, y: 235, angle: -28, scale: 0.40, grad: "A" },
-  p2R: { x: 150, y: 230, angle: 28, scale: 0.40, grad: "B" },
+  p2L: { x: 150, y: 245, angle: -28, scale: 0.32, grad: "A" },
+  p2R: { x: 150, y: 241, angle: 28, scale: 0.32, grad: "B" },
 
-  p3L: { x: 150, y: 175, angle: -22, scale: 0.35, grad: "A" },
-  p3R: { x: 150, y: 170, angle: 22, scale: 0.35, grad: "B" },
+  p3L: { x: 150, y: 190, angle: -25, scale: 0.28, grad: "A" },
+  p3R: { x: 150, y: 186, angle: 25, scale: 0.28, grad: "B" },
 
-  branchL: { x: 150, y: 220, angle: -55, scale: 0.28, grad: "A" },
-  branchR: { x: 150, y: 160, angle: 55, scale: 0.28, grad: "B" }
+  branchL: { x: 150, y: 225, angle: -50, scale: 0.22, grad: "A" },
+  branchR: { x: 150, y: 170, angle: 50, scale: 0.22, grad: "B" }
 };
 
 /** Creates every leaf element up front (hidden), ready to be revealed later. */
